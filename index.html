@@ -191,6 +191,7 @@
     .fg2{grid-template-columns:1fr;margin-bottom:0}
   }
 </style>
+<script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
 </head>
 <body>
 
@@ -324,34 +325,37 @@
         <div class="carte-tier">Amie du Garden</div>
         <div class="carte-price">15 000 <small style="font-size:16px">FCFA</small></div>
         <ul class="carte-feats"><li>1 soin offert à l'ouverture</li><li>10% de réduction à vie</li><li>Accès prioritaire aux RDV</li><li>Nom au Mur des Fondateurs</li></ul>
-        <button class="carte-btn" onclick="showCarteForm('Amie du Garden – 15 000 FCFA')">Obtenir ma carte</button>
+        <button class="carte-btn" onclick="payerCarte('Amie du Garden', 15000)">✦ &nbsp; Payer maintenant</button>
       </div>
       <div class="carte-card featured">
         <div class="carte-badge">Le plus populaire</div>
         <div class="carte-tier">Gardienne du Garden</div>
         <div class="carte-price">35 000 <small style="font-size:16px">FCFA</small></div>
         <ul class="carte-feats"><li>3 soins offerts à l'ouverture</li><li>20% de réduction à vie</li><li>Accès VIP aux événements</li><li>Kit de bienvenue Nouvel Espoir Afro</li><li>Nom au Mur des Fondateurs</li></ul>
-        <button class="carte-btn" onclick="showCarteForm('Gardienne du Garden – 35 000 FCFA')">Obtenir ma carte</button>
+        <button class="carte-btn" onclick="payerCarte('Gardienne du Garden', 35000)">✦ &nbsp; Payer maintenant</button>
       </div>
       <div class="carte-card">
         <div class="carte-tier">Reine du Garden</div>
         <div class="carte-price">75 000 <small style="font-size:16px">FCFA</small></div>
         <ul class="carte-feats"><li>6 soins offerts à l'ouverture</li><li>30% de réduction à vie</li><li>Invitation soirée d'inauguration</li><li>Kit premium Nouvel Espoir Afro</li><li>Plaque nominative dans le salon</li></ul>
-        <button class="carte-btn" onclick="showCarteForm('Reine du Garden – 75 000 FCFA')">Obtenir ma carte</button>
+        <button class="carte-btn" onclick="payerCarte('Reine du Garden', 75000)">✦ &nbsp; Payer maintenant</button>
       </div>
     </div>
-    <div class="form-light" id="form-carte">
-      <h3>Réserver ma Carte Fondatrice</h3>
-      <p id="carte-tier-lbl">Complétez vos informations pour réserver votre place.</p>
-      <form action="https://formspree.io/f/mgoldabp" method="POST">
-        <input type="hidden" name="Type" value="Carte Fondatrice">
-        <input type="hidden" name="Carte choisie" id="carte-hidden" value="">
-        <div class="fg2"><input type="text" name="Prénom" placeholder="Prénom" required class="fl"><input type="text" name="Nom" placeholder="Nom" required class="fl"></div>
-        <input type="email" name="Email" placeholder="Email" required class="fl">
-        <input type="tel" name="Téléphone" placeholder="Numéro de téléphone" class="fl">
-        <textarea name="Message" placeholder="Un message pour l'équipe ? (optionnel)" rows="3" class="fl"></textarea>
-        <button type="submit" class="fs-light">✦ &nbsp; Confirmer ma réservation &nbsp; ✦</button>
-      </form>
+
+    <!-- Modal paiement -->
+    <div id="modal-paiement" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;">
+      <div style="background:var(--cream);max-width:480px;width:90%;padding:40px;position:relative;">
+        <button onclick="fermerModal()" style="position:absolute;top:16px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--deep-green);">✕</button>
+        <span class="sec-label">Carte Fondatrice</span>
+        <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:22px;color:var(--deep-green);margin-bottom:4px;" id="modal-titre">Gardienne du Garden</h3>
+        <p id="modal-prix" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;color:var(--gold);font-weight:600;margin-bottom:24px;">35 000 FCFA</p>
+        <input type="text" id="pay-prenom" placeholder="Prénom" class="fl" style="margin-bottom:12px;">
+        <input type="text" id="pay-nom" placeholder="Nom" class="fl" style="margin-bottom:12px;">
+        <input type="email" id="pay-email" placeholder="Email" class="fl" style="margin-bottom:12px;">
+        <input type="tel" id="pay-tel" placeholder="Téléphone (ex: +229...)" class="fl" style="margin-bottom:24px;">
+        <button onclick="lancerPaiement()" class="fs-light" id="btn-payer">✦ &nbsp; Procéder au paiement &nbsp; ✦</button>
+        <p style="font-size:11px;color:var(--sage);text-align:center;margin-top:12px;">🔒 Paiement sécurisé via FedaPay · Mobile Money &amp; Carte bancaire</p>
+      </div>
     </div>
   </div>
 </section>
@@ -428,7 +432,7 @@
     document.getElementById('seconds').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
   }
   updateCountdown();setInterval(updateCountdown,1000);
-  function showCarteForm(tier){
+
     const f=document.getElementById('form-carte');
     f.style.display='block';
     document.getElementById('carte-hidden').value=tier;
