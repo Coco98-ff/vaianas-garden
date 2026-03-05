@@ -340,20 +340,17 @@
       </div>
     </div>
 
-    <!-- Modal paiement -->
-    <div id="modal-paiement" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;">
-      <div style="background:var(--cream);max-width:480px;width:90%;padding:40px;position:relative;">
-        <button onclick="fermerModal()" style="position:absolute;top:16px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--deep-green);">✕</button>
-        <span class="sec-label">Carte Fondatrice</span>
-        <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:22px;color:var(--deep-green);margin-bottom:4px;" id="modal-titre">Gardienne du Garden</h3>
-        <p id="modal-prix" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;color:var(--gold);font-weight:600;margin-bottom:24px;">35 000 FCFA</p>
-        <input type="text" id="pay-prenom" placeholder="Prénom" class="fl" style="margin-bottom:12px;">
-        <input type="text" id="pay-nom" placeholder="Nom" class="fl" style="margin-bottom:12px;">
-        <input type="email" id="pay-email" placeholder="Email" class="fl" style="margin-bottom:12px;">
-        <input type="tel" id="pay-tel" placeholder="Téléphone (ex: +229...)" class="fl" style="margin-bottom:24px;">
-        <button onclick="lancerPaiement()" class="fs-light" id="btn-payer">✦ &nbsp; Procéder au paiement &nbsp; ✦</button>
-        <p style="font-size:11px;color:var(--sage);text-align:center;margin-top:12px;">🔒 Paiement sécurisé via FedaPay · Mobile Money &amp; Carte bancaire</p>
-      </div>
+    <!-- Formulaire paiement inline -->
+    <div id="form-paiement" style="display:none;background:var(--cream);border:2px solid var(--gold);padding:32px;margin-top:32px;max-width:500px;margin-left:auto;margin-right:auto;">
+      <span class="sec-label">Carte Fondatrice</span>
+      <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:22px;color:var(--deep-green);margin-bottom:4px;" id="modal-titre">Gardienne du Garden</h3>
+      <p id="modal-prix" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;color:var(--gold);font-weight:600;margin-bottom:24px;">35 000 FCFA</p>
+      <input type="text" id="pay-prenom" placeholder="Prénom" class="fl">
+      <input type="text" id="pay-nom" placeholder="Nom" class="fl">
+      <input type="email" id="pay-email" placeholder="Email" class="fl">
+      <input type="tel" id="pay-tel" placeholder="Téléphone (ex: +229...)" class="fl">
+      <button onclick="lancerPaiement()" class="fs-light" id="btn-payer">✦ &nbsp; Procéder au paiement &nbsp; ✦</button>
+      <p style="font-size:11px;color:var(--sage);text-align:center;margin-top:12px;">🔒 Paiement sécurisé via FedaPay · Mobile Money &amp; Carte bancaire</p>
     </div>
   </div>
 </section>
