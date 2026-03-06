@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vaïana's Garden">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Vaïana's Garden – Nouvel Espoir Afro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#C9A96E;--gold-light:#E8D5A3;--deep-green:#1A3028;--dark-green:#122219;--sage:#3D5C47;--cream:#FAF6EE;--warm-white:#FDFAF4}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans','Segoe UI',sans-serif;background:var(--warm-white);color:var(--deep-green);overflow-x:hidden}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(26,48,40,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,169,110,0.15)}
+  .nav-brand{font-family:'Playfair Display',Georgia,serif;font-size:19px;color:var(--cream);font-weight:700}
+  .nav-brand span{color:var(--gold);font-style:italic}
+  .nav-links{display:flex;gap:24px}
+  .nav-links a{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,246,238,0.7);text-decoration:none;transition:color 0.3s}
+  .nav-links a:hover{color:var(--gold)}
+  .nav-book{background:var(--gold);color:var(--deep-green);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border:none;cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif}
+  .hero{min-height:100vh;background:var(--deep-green);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:100px 20px 60px;position:relative}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 10% 85%,rgba(201,169,110,0.15) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 90% 15%,rgba(61,92,71,0.4) 0%,transparent 60%)}
+  .leaf-svg{position:absolute;pointer-events:none}
+  .leaf-tl{top:-50px;left:-50px;width:340px;opacity:0.13;animation:leafSway 8s ease-in-out infinite}
+  .leaf-br{bottom:-70px;right:-50px;width:380px;opacity:0.1;animation:leafSway 10s ease-in-out infinite reverse}
+  @keyframes leafSway{0%,100%{transform:rotate(-15deg) scale(1)}50%{transform:rotate(-12deg) scale(1.03)}}
+  .hero-badge{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,110,0.6);padding:7px 24px;border-radius:20px;margin-bottom:36px;position:relative;z-index:2;animation:fadeDown 1s ease both}
+  .hero-logo{text-align:center;position:relative;z-index:2;animation:fadeUp 1.2s ease both 0.2s}
+  .brand-line1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(58px,12vw,108px);font-weight:700;color:var(--cream);line-height:0.9;letter-spacing:-2px}
+  .brand-line2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(58px,12vw,108px);font-weight:700;color:var(--gold);font-style:italic;line-height:1.05}
+  .ornament-row{display:flex;align-items:center;gap:16px;justify-content:center;margin:26px 0 22px}
+  .orn-line{flex:1;max-width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .orn-line.r{background:linear-gradient(270deg,transparent,var(--gold))}
+  .orn-dots{color:var(--gold);font-size:14px;letter-spacing:10px}
+  .brand-sub{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(13px,2.5vw,18px);font-weight:300;letter-spacing:7px;text-transform:uppercase;color:var(--gold-light)}
+  .hero-tagline{margin-top:32px;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(16px,2.5vw,20px);font-style:italic;color:rgba(250,246,238,0.6);text-align:center;max-width:500px;line-height:1.8;position:relative;z-index:2;animation:fadeUp 1.2s ease both 0.5s}
+  .hero-ctas{margin-top:48px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;position:relative;z-index:2;animation:fadeUp 1.2s ease both 0.7s}
+  .btn-primary{background:var(--gold);color:var(--deep-green);font-weight:500;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:16px 38px;border:none;cursor:pointer;transition:all 0.3s;font-family:'DM Sans',sans-serif}
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--cream);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:16px 38px;border:1px solid rgba(250,246,238,0.3);cursor:pointer;transition:all 0.3s;font-family:'DM Sans',sans-serif}
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+  .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:rgba(250,246,238,0.35);font-size:10px;letter-spacing:3px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .scroll-bar{width:1px;height:40px;background:linear-gradient(180deg,rgba(201,169,110,0.8),transparent);animation:scrollPulse 2s ease-in-out infinite}
+  .stats-strip{background:var(--dark-green);padding:70px 40px;display:flex;justify-content:center;gap:80px;flex-wrap:wrap;border-top:1px solid rgba(201,169,110,0.2)}
+  .stat{text-align:center}
+  .stat-num{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:700;color:var(--gold);line-height:1}
+  .stat-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(250,246,238,0.55);margin-top:10px}
+  .sec-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+  .sec-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(32px,5vw,54px);font-weight:400;line-height:1.1;margin-bottom:24px}
+  .sec-title em{font-style:italic;color:var(--sage)}
+  .sec-title.light{color:var(--cream)}
+  .sec-title.light em{color:var(--gold)}
+  /* VISION */
+  .vision-sec{padding:100px 40px}
+  .vision-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .vision-text p{font-size:15px;line-height:1.95;color:#4A5C50;margin-bottom:18px}
+  .pillars{display:flex;flex-direction:column;gap:16px;margin-top:32px}
+  .pillar{display:flex;align-items:flex-start;gap:16px;padding:20px;background:var(--cream);border-left:3px solid var(--gold)}
+  .pillar-icon{font-size:26px;flex-shrink:0}
+  .pillar-title{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:700;color:var(--deep-green);margin-bottom:4px}
+  .pillar-desc{font-size:13px;line-height:1.7;color:var(--sage)}
+  .vision-img{aspect-ratio:4/5;position:relative;overflow:hidden;background:linear-gradient(145deg,#2E5040,#1A3028)}
+  .vision-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .vision-cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,48,40,0.92));padding:32px 24px 24px}
+  .vision-cap span{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-style:italic;color:var(--cream)}
+  /* GALERIE */
+  .galerie-sec{background:var(--deep-green);padding:100px 40px}
+  .galerie-inner{max-width:1200px;margin:0 auto}
+  .galerie-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:48px}
+  .g-card{position:relative;overflow:hidden;aspect-ratio:4/3;background:linear-gradient(145deg,#2E5040,#1A3028)}
+  .g-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s}
+  .g-card:hover img{transform:scale(1.05)}
+  .g-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,48,40,0.92));padding:28px 20px 20px}
+  .g-tag{color:var(--gold);font-size:10px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:4px}
+  .g-name{font-family:'Playfair Display',Georgia,serif;font-size:20px;color:var(--cream)}
+  /* SERVICES */
+  .services-sec{padding:100px 40px}
+  .services-inner{max-width:1200px;margin:0 auto}
+  .svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;background:var(--gold-light);margin-top:48px}
+  .svc-card{background:var(--warm-white);padding:44px 30px;transition:all 0.4s;position:relative;overflow:hidden}
+  .svc-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+  .svc-card:hover::after{transform:scaleX(1)}
+  .svc-card:hover{background:var(--cream)}
+  .svc-icon{font-size:38px;margin-bottom:20px;display:block}
+  .svc-name{font-family:'Playfair Display',Georgia,serif;font-size:21px;font-weight:700;color:var(--deep-green);margin-bottom:12px}
+  .svc-desc{font-size:14px;line-height:1.85;color:var(--sage);margin-bottom:20px}
+  .svc-price{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;color:var(--gold);font-weight:600}
+  /* OUVERTURE */
+  .ouv-sec{background:var(--deep-green);padding:100px 40px;text-align:center;position:relative;overflow:hidden}
+  .ouv-inner{max-width:680px;margin:0 auto;position:relative;z-index:2}
+  .ouv-inner>p{font-size:14px;color:rgba(250,246,238,0.55);line-height:1.8;margin-bottom:0}
+  .countdown{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin:48px 0}
+  .cd-item{text-align:center}
+  .cd-num{font-family:'Playfair Display',Georgia,serif;font-size:64px;font-weight:700;color:var(--gold);line-height:1;display:block}
+  .cd-lbl{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(250,246,238,0.5);margin-top:8px;display:block}
+  .cd-sep{font-size:48px;color:rgba(201,169,110,0.3);align-self:center;padding-bottom:20px}
+  /* COMMUNAUTÉ */
+  .comm-sec{background:var(--cream);padding:100px 40px;text-align:center}
+  .comm-inner{max-width:560px;margin:0 auto}
+  .comm-inner>p{font-size:15px;color:var(--sage);line-height:1.85;margin-bottom:40px}
+  .comm-form{display:flex;max-width:480px;margin:0 auto}
+  .comm-form input{flex:1;padding:16px 20px;border:1px solid rgba(26,48,40,0.2);border-right:none;background:white;font-size:14px;color:var(--deep-green);outline:none;font-family:'DM Sans',sans-serif}
+  .comm-form input:focus{border-color:var(--gold)}
+  .comm-form button{background:var(--deep-green);color:var(--gold);font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:16px 22px;border:none;cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif;white-space:nowrap}
+  .avantages{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:36px}
+  .avantage{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sage)}
+  .avantage::before{content:'✦';color:var(--gold);font-size:8px}
+  /* CARTE */
+  .carte-sec{padding:100px 40px}
+  .carte-inner{max-width:1100px;margin:0 auto}
+  .carte-inner>p{font-size:15px;color:var(--sage);line-height:1.85;max-width:600px}
+  .carte-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px}
+  .carte-card{border:1px solid var(--gold-light);padding:40px 28px;position:relative;transition:all 0.4s;background:white}
+  .carte-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(26,48,40,0.12)}
+  .carte-card.featured{background:var(--deep-green);border-color:var(--gold)}
+  .carte-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--deep-green);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;font-weight:700;white-space:nowrap}
+  .carte-tier{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:var(--deep-green);margin-bottom:8px}
+  .carte-card.featured .carte-tier{color:var(--gold)}
+  .carte-price{font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;color:var(--gold);font-weight:600;line-height:1;margin-bottom:24px}
+  .carte-feats{list-style:none;margin-bottom:28px}
+  .carte-feats li{font-size:13px;line-height:2.2;color:var(--sage);display:flex;align-items:center;gap:10px}
+  .carte-card.featured .carte-feats li{color:rgba(250,246,238,0.75)}
+  .carte-feats li::before{content:'✦';color:var(--gold);font-size:8px;flex-shrink:0}
+  .carte-btn{width:100%;padding:14px;background:var(--deep-green);color:var(--gold);font-size:11px;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif}
+  .carte-card.featured .carte-btn{background:var(--gold);color:var(--deep-green)}
+  .form-light{background:var(--cream);border:1px solid var(--gold-light);padding:40px;margin-top:48px;display:none;max-width:560px;margin-left:auto;margin-right:auto}
+  .form-light h3{font-family:'Playfair Display',Georgia,serif;font-size:22px;color:var(--deep-green);margin-bottom:8px}
+  .form-light>p{font-size:13px;color:var(--sage);margin-bottom:24px}
+  /* PARTENAIRES */
+  .part-sec{background:var(--dark-green);padding:100px 40px;text-align:center;position:relative;overflow:hidden}
+  .part-inner{max-width:720px;margin:0 auto;position:relative;z-index:2}
+  .part-inner>p{font-size:15px;color:rgba(250,246,238,0.6);line-height:1.9;margin-bottom:48px}
+  .p-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,169,110,0.2);margin-bottom:48px}
+  .p-stat{background:rgba(26,48,40,0.8);padding:28px 16px;text-align:center}
+  .p-stat-num{font-family:'Playfair Display',Georgia,serif;font-size:32px;color:var(--gold);font-weight:700}
+  .p-stat-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,246,238,0.5);margin-top:8px}
+  /* FORMULAIRES */
+  .ff{padding:14px;border:1px solid rgba(201,169,110,0.3);background:rgba(255,255,255,0.05);color:var(--cream);font-size:14px;outline:none;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:12px}
+  .ff::placeholder{color:rgba(250,246,238,0.35)}
+  .ff:focus{border-color:var(--gold)}
+  select.ff{-webkit-appearance:none;background:rgba(26,48,40,0.95);color:rgba(250,246,238,0.7)}
+  .fl{padding:14px;border:1px solid rgba(26,48,40,0.2);background:white;color:var(--deep-green);font-size:14px;outline:none;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:12px}
+  .fl::placeholder{color:rgba(26,48,40,0.35)}
+  .fl:focus{border-color:var(--gold)}
+  select.fl{-webkit-appearance:none}
+  .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .fs-dark{width:100%;padding:16px;background:var(--gold);color:var(--deep-green);font-weight:600;font-size:12px;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+  .fs-light{width:100%;padding:16px;background:var(--deep-green);color:var(--gold);font-weight:600;font-size:12px;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+  .form-overlay{display:none;margin-top:40px;text-align:left;background:rgba(255,255,255,0.04);border:1px solid rgba(201,169,110,0.2);padding:40px}
+  .form-overlay h3{font-family:'Playfair Display',Georgia,serif;font-size:24px;color:var(--cream);margin-bottom:8px}
+  .form-overlay>p{font-size:13px;color:rgba(250,246,238,0.5);margin-bottom:28px}
+  /* RÉSERVATION */
+  .resa-sec{background:var(--cream);padding:100px 40px;text-align:center}
+  .resa-inner{max-width:580px;margin:0 auto}
+  .resa-inner>p{font-size:15px;color:var(--sage);line-height:1.8;margin-bottom:48px}
+  .resa-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;margin-bottom:10px}
+  .resa-form input,.resa-form select{padding:15px;border:1px solid rgba(26,48,40,0.2);background:white;font-size:14px;color:var(--deep-green);outline:none;-webkit-appearance:none;font-family:'DM Sans',sans-serif}
+  .resa-form input:focus,.resa-form select:focus{border-color:var(--gold)}
+  .resa-form .full{grid-column:1/-1}
+  .btn-book{width:100%;padding:18px;background:var(--deep-green);color:var(--gold);font-weight:500;font-size:12px;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+  /* FOOTER */
+  footer{background:var(--deep-green);padding:64px 48px 32px}
+  .foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(201,169,110,0.18);margin-bottom:28px}
+  .foot-brand{font-family:'Playfair Display',Georgia,serif;font-size:26px;color:var(--cream);font-weight:700}
+  .foot-brand span{color:var(--gold);font-style:italic}
+  .foot-sub{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-top:8px}
+  .foot-col h4{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+  .foot-col p,.foot-col a{display:block;font-size:13px;line-height:2.3;color:rgba(250,246,238,0.55);text-decoration:none;transition:color 0.2s}
+  .foot-col a:hover{color:var(--gold)}
+  .foot-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:11px;color:rgba(250,246,238,0.35)}
+  .foot-bot span{color:var(--gold)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes scrollPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+  .fi{opacity:1;transform:none}
+  @media(max-width:768px){
+    nav{padding:14px 20px}.nav-links{display:none}
+    .vision-inner{grid-template-columns:1fr;gap:40px}
+    .galerie-grid{grid-template-columns:1fr}
+    .vision-sec,.galerie-sec,.services-sec,.ouv-sec,.comm-sec,.carte-sec,.part-sec,.resa-sec{padding:60px 20px}
+    .stats-strip{gap:40px;padding:60px 20px}
+    .resa-form,.fg2{grid-template-columns:1fr}
+    .comm-form{flex-direction:column}.comm-form input{border-right:1px solid rgba(26,48,40,0.2);border-bottom:none}
+    footer{padding:48px 20px 24px}.foot-top{flex-direction:column;gap:32px}.foot-bot{flex-direction:column}
+    .countdown{gap:16px}.cd-num{font-size:40px}.cd-sep{display:none}
+    .p-stats{grid-template-columns:1fr}
+    .form-overlay,.form-light{padding:24px}
+    .fg2{grid-template-columns:1fr;margin-bottom:0}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Vaïana'<span>s</span> Garden</div>
+  <div class="nav-links">
+    <a href="#vision">Vision</a>
+    <a href="#services">Services</a>
+    <a href="#communaute">Communauté</a>
+    <a href="#carte">Carte Fondatrice</a>
+    <a href="#partenaires">Partenaires</a>
+  </div>
+  <button class="nav-book" onclick="document.getElementById('reservation').scrollIntoView({behavior:'smooth'})">Réserver</button>
+</nav>
+
+<section class="hero">
+  <svg class="leaf-svg leaf-tl" viewBox="0 0 300 400" fill="none"><path d="M50 380 Q150 200 200 20 Q250 200 100 350 Q80 370 50 380Z" fill="#C9A96E"/><path d="M80 360 Q160 220 180 60" stroke="#C9A96E" stroke-width="2" fill="none"/></svg>
+  <svg class="leaf-svg leaf-br" viewBox="0 0 300 400" fill="none"><path d="M50 380 Q150 200 200 20 Q250 200 100 350 Q80 370 50 380Z" fill="#3D5C47"/></svg>
+  <div class="hero-badge">✦ &nbsp; Bientôt à Parakou, Bénin &nbsp; ✦</div>
+  <div class="hero-logo">
+    <div class="brand-line1">Vaïana's</div>
+    <div class="brand-line2">Garden</div>
+    <div class="ornament-row"><div class="orn-line"></div><span class="orn-dots">✦ &nbsp; ✦ &nbsp; ✦</span><div class="orn-line r"></div></div>
+    <div class="brand-sub">Nouvel Espoir Afro</div>
+  </div>
+  <p class="hero-tagline">Le premier complexe premium dédié aux cheveux afro naturels des enfants — soin, jeu &amp; art de vivre</p>
+  <div class="hero-ctas">
+    <button class="btn-primary" onclick="document.getElementById('communaute').scrollIntoView({behavior:'smooth'})">Rejoindre la communauté</button>
+    <button class="btn-outline" onclick="document.getElementById('vision').scrollIntoView({behavior:'smooth'})">Découvrir le projet</button>
+  </div>
+  <div class="scroll-hint"><span>Découvrir</span><div class="scroll-bar"></div></div>
+</section>
+
+<div class="stats-strip">
+  <div class="stat fi"><div class="stat-num">3</div><div class="stat-label">Pôles de revenus</div></div>
+  <div class="stat fi"><div class="stat-num">1er</div><div class="stat-label">En Afrique de l'Ouest</div></div>
+  <div class="stat fi"><div class="stat-num">0–12</div><div class="stat-label">Ans, notre spécialité</div></div>
+  <div class="stat fi"><div class="stat-num">100%</div><div class="stat-label">Naturel &amp; premium</div></div>
+</div>
+
+<section id="vision" class="vision-sec fi">
+  <div class="vision-inner">
+    <div class="vision-text">
+      <span class="sec-label">Le projet</span>
+      <h2 class="sec-title">Vaïana's Garden —<br><em>La vision</em></h2>
+      <p>Vaïana's Garden est né d'un constat simple mais puissant : les enfants aux cheveux afro naturels méritent un espace dédié, expert et bienveillant. Un lieu où le soin devient un rituel de fierté, où chaque visite renforce l'amour de soi.</p>
+      <p>Notre mission est de créer le <strong>premier complexe premium de bien-être capillaire afro pour enfants</strong> en Afrique de l'Ouest — alliant expertise technique, éducation capillaire et art de vivre.</p>
+      <p>Basé à <strong>Parakou, Bénin</strong>, Vaïana's Garden est en phase de développement. Chaque détail est pensé pour offrir une expérience inoubliable aux familles.</p>
+      <div class="pillars">
+        <div class="pillar"><div class="pillar-icon">✂️</div><div><div class="pillar-title">Excellence capillaire</div><div class="pillar-desc">Des coiffeuses certifiées, formées aux spécificités du cheveu afro naturel de l'enfant.</div></div></div>
+        <div class="pillar"><div class="pillar-icon">🌱</div><div><div class="pillar-title">Éducation &amp; fierté</div><div class="pillar-desc">Chaque visite est une leçon d'amour de soi — pour l'enfant et pour la famille.</div></div></div>
+        <div class="pillar"><div class="pillar-icon">🏡</div><div><div class="pillar-title">Confort familial</div><div class="pillar-desc">Un espace jeux et un salon de thé pensés pour que toute la famille profite du moment.</div></div></div>
+      </div>
+    </div>
+    <div class="vision-img"><img src="façade . jpg.PNG" alt="Façade Vaïana's Garden"><div class="vision-cap"><span>"Un lieu où chaque enfant découvre la beauté de ses racines"</span></div></div>
+  </div>
+</section>
+
+<section class="galerie-sec fi">
+  <div class="galerie-inner">
+    <span class="sec-label">Nos espaces</span>
+    <h2 class="sec-title light">Découvrez<br><em>l'univers Vaïana's Garden</em></h2>
+    <div class="galerie-grid">
+      <div class="g-card"><img src="façade . jpg.PNG" alt="Façade"><div class="g-overlay"><span class="g-tag">Extérieur</span><div class="g-name">La Façade</div></div></div>
+      <div class="g-card"><img src="salon . jpg.PNG" alt="Salon"><div class="g-overlay"><span class="g-tag">Coiffure</span><div class="g-name">Le Salon</div></div></div>
+      <div class="g-card"><img src="jeux . jpg.PNG" alt="Espace jeux"><div class="g-overlay"><span class="g-tag">Enfants</span><div class="g-name">L'Espace Jeux</div></div></div>
+      <div class="g-card"><img src="The . jpg.PNG" alt="Salon de thé"><div class="g-overlay"><span class="g-tag">Parents</span><div class="g-name">Le Salon de Thé</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="services-sec fi">
+  <div class="services-inner">
+    <span class="sec-label">Nos pôles</span>
+    <h2 class="sec-title">Trois univers,<br><em>une expérience unique</em></h2>
+    <div class="svc-grid">
+      <div class="svc-card"><span class="svc-icon">💆🏾‍♀️</span><div class="svc-name">Pôle Coiffure Premium</div><p class="svc-desc">Soins spécialisés pour les cheveux afro naturels des enfants. Fauteuils ergonomiques, coiffeuses expertes, produits Nouvel Espoir Afro.</p><div class="svc-price">À partir de 45 €</div></div>
+      <div class="svc-card"><span class="svc-icon">🎪</span><div class="svc-name">Espace de Jeux</div><p class="svc-desc">Un univers magique où les enfants s'amusent pendant les soins. Zone thématique Afrique, activités créatives supervisées.</p><div class="svc-price">Inclus avec le soin</div></div>
+      <div class="svc-card"><span class="svc-icon">🍵</span><div class="svc-name">Salon de Thé</div><p class="svc-desc">Infusions africaines, pâtisseries maison, ambiance feutrée. Une parenthèse de douceur pour les parents le temps d'un soin.</p><div class="svc-price">À partir de 8 €</div></div>
+      <div class="svc-card"><span class="svc-icon">🛍️</span><div class="svc-name">Boutique Capillaire</div><p class="svc-desc">Gamme Nouvel Espoir Afro en exclusivité — soins, huiles, accessoires premium pour les cheveux afro naturels.</p><div class="svc-price">Produits certifiés bio</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ouv-sec fi">
+  <div class="ouv-inner">
+    <span class="sec-label">Le compte à rebours a commencé</span>
+    <h2 class="sec-title light">Ouverture<br><em>prochaine</em></h2>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(16px,2.5vw,20px);font-style:italic;color:rgba(250,246,238,0.7);line-height:1.8;margin-bottom:16px;">"Quelque chose d'extraordinaire se prépare à Parakou."</p>
+    <p>Vaïana's Garden ouvre ses portes très prochainement. Rejoignez la communauté dès aujourd'hui pour être parmi les premiers à vivre l'expérience.</p>
+    <div class="countdown">
+      <div class="cd-item"><span class="cd-num" id="days">--</span><span class="cd-lbl">Jours</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-item"><span class="cd-num" id="hours">--</span><span class="cd-lbl">Heures</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-item"><span class="cd-num" id="minutes">--</span><span class="cd-lbl">Minutes</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-item"><span class="cd-num" id="seconds">--</span><span class="cd-lbl">Secondes</span></div>
+    </div>
+    <button class="btn-primary" onclick="document.getElementById('communaute').scrollIntoView({behavior:'smooth'})">✦ &nbsp; Être notifié à l'ouverture</button>
+  </div>
+</section>
+
+<section id="communaute" class="comm-sec fi">
+  <div class="comm-inner">
+    <span class="sec-label">La communauté</span>
+    <h2 class="sec-title">Rejoignez<br><em>l'aventure</em></h2>
+    <p>Soyez parmi les premiers informés de l'ouverture, des offres exclusives et des actualités de Vaïana's Garden. Une communauté de familles qui croient en la beauté naturelle des cheveux afro.</p>
+    <form action="https://formspree.io/f/mgoldabp" method="POST">
+      <input type="hidden" name="Type" value="Inscription communauté">
+      <div class="comm-form">
+        <input type="email" name="Email" placeholder="Votre adresse email" required>
+        <button type="submit">Je rejoins ✦</button>
+      </div>
+    </form>
+    <div class="avantages">
+      <div class="avantage">Accès prioritaire à l'ouverture</div>
+      <div class="avantage">Offres exclusives membres</div>
+      <div class="avantage">Actualités en avant-première</div>
+    </div>
+  </div>
+</section>
+
+<section id="carte" class="carte-sec fi">
+  <div class="carte-inner">
+    <span class="sec-label">Soutenez le projet</span>
+    <h2 class="sec-title">Carte<br><em>Fondatrice</em></h2>
+    <p>Devenez l'un des premiers soutiens de Vaïana's Garden. En acquérant une carte fondatrice, vous soutenez le projet et bénéficiez d'avantages exclusifs dès l'ouverture.</p>
+    <div class="carte-grid">
+      <div class="carte-card">
+        <div class="carte-tier">Amie du Garden</div>
+        <div class="carte-price">15 000 <small style="font-size:16px">FCFA</small></div>
+        <ul class="carte-feats"><li>1 soin offert à l'ouverture</li><li>10% de réduction à vie</li><li>Accès prioritaire aux RDV</li><li>Nom au Mur des Fondateurs</li></ul>
+        <button class="carte-btn" onclick="payerCarte('Amie du Garden', 15000)" style="cursor:pointer;position:relative;z-index:10;">✦ &nbsp; Payer maintenant</button>
+      </div>
+      <div class="carte-card featured">
+        <div class="carte-badge">Le plus populaire</div>
+        <div class="carte-tier">Gardienne du Garden</div>
+        <div class="carte-price">35 000 <small style="font-size:16px">FCFA</small></div>
+        <ul class="carte-feats"><li>3 soins offerts à l'ouverture</li><li>20% de réduction à vie</li><li>Accès VIP aux événements</li><li>Kit de bienvenue Nouvel Espoir Afro</li><li>Nom au Mur des Fondateurs</li></ul>
+        <button class="carte-btn" onclick="payerCarte('Gardienne du Garden', 35000)" style="cursor:pointer;position:relative;z-index:10;">✦ &nbsp; Payer maintenant</button>
+      </div>
+      <div class="carte-card">
+        <div class="carte-tier">Reine du Garden</div>
+        <div class="carte-price">75 000 <small style="font-size:16px">FCFA</small></div>
+        <ul class="carte-feats"><li>6 soins offerts à l'ouverture</li><li>30% de réduction à vie</li><li>Invitation soirée d'inauguration</li><li>Kit premium Nouvel Espoir Afro</li><li>Plaque nominative dans le salon</li></ul>
+        <button class="carte-btn" onclick="payerCarte('Reine du Garden', 75000)" style="cursor:pointer;position:relative;z-index:10;">✦ &nbsp; Payer maintenant</button>
+      </div>
+    </div>
+
+```
+<!-- Formulaire paiement inline -->
+<div id="form-paiement" style="display:none;background:var(--cream);border:2px solid var(--gold);padding:32px;margin-top:32px;max-width:500px;margin-left:auto;margin-right:auto;">
+  <span class="sec-label">Carte Fondatrice</span>
+  <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:22px;color:var(--deep-green);margin-bottom:4px;" id="modal-titre">Gardienne du Garden</h3>
+  <p id="modal-prix" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;color:var(--gold);font-weight:600;margin-bottom:24px;">35 000 FCFA</p>
+  <form action="https://formspree.io/f/mgoldabp" method="POST">
+    <input type="hidden" name="Type" value="Carte Fondatrice">
+    <input type="hidden" name="Carte choisie" id="carte-nom-hidden" value="">
+    <input type="text" name="Prénom" placeholder="Prénom" required class="fl">
+    <input type="text" name="Nom" placeholder="Nom" required class="fl">
+    <input type="email" name="Email" placeholder="Email" required class="fl">
+    <input type="tel" name="Téléphone" placeholder="Téléphone (ex: +229...)" class="fl">
+    <button type="submit" class="fs-light">✦ &nbsp; Confirmer ma réservation &nbsp; ✦</button>
+    <p style="font-size:11px;color:var(--sage);text-align:center;margin-top:12px;">Vous recevrez les instructions de paiement par email 🌿</p>
+  </form>
+</div>
+```
+
+  </div>
+</section>
+
+<section id="partenaires" class="part-sec fi">
+  <div class="part-inner">
+    <span class="sec-label">Rejoignez l'aventure</span>
+    <h2 class="sec-title light">Partenaires<br><em>du projet</em></h2>
+    <div style="width:60px;height:1px;background:var(--gold);margin:0 auto 32px"></div>
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(16px,2.5vw,20px);font-style:italic;color:rgba(250,246,238,0.75);line-height:1.9;margin-bottom:24px;">"Vaïana's Garden est bien plus qu'un salon — c'est un mouvement pour que chaque enfant afro grandisse avec fierté et amour de ses cheveux."</p>
+    <p>Nous recherchons des partenaires, investisseurs et marques partageant notre vision pour co-construire un espace premium unique en Afrique de l'Ouest.</p>
+    <div class="p-stats">
+      <div class="p-stat"><div class="p-stat-num">3</div><div class="p-stat-lbl">Pôles de revenus</div></div>
+      <div class="p-stat"><div class="p-stat-num">1er</div><div class="p-stat-lbl">En Afrique de l'Ouest</div></div>
+      <div class="p-stat"><div class="p-stat-num">∞</div><div class="p-stat-lbl">Potentiel de croissance</div></div>
+    </div>
+    <button class="btn-primary" onclick="document.getElementById('form-part').style.display='block';this.style.display='none'">✦ &nbsp; Devenir Partenaire &nbsp; ✦</button>
+    <div class="form-overlay" id="form-part">
+      <h3>Prenons contact</h3>
+      <p>Remplissez ce formulaire et nous vous répondrons dans les 48h.</p>
+      <form action="https://formspree.io/f/mgoldabp" method="POST">
+        <input type="hidden" name="Type" value="Demande partenariat">
+        <div class="fg2" style="margin-bottom:0"><input type="text" name="Nom complet" placeholder="Nom complet" required class="ff"><input type="email" name="Email" placeholder="Email professionnel" required class="ff"></div>
+        <select name="Type de partenariat" class="ff"><option value="">— Type de partenariat —</option><option>Investisseur financier</option><option>Marque capillaire / cosmétique</option><option>Sponsor événementiel</option><option>Partenaire immobilier</option><option>Partenaire médias / communication</option><option>Autre</option></select>
+        <input type="text" name="Organisation" placeholder="Votre entreprise / organisation" class="ff">
+        <textarea name="Message" placeholder="Décrivez votre intérêt pour le projet..." rows="4" required class="ff"></textarea>
+        <button type="submit" class="fs-dark">✦ &nbsp; Envoyer ma demande &nbsp; ✦</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="reservation" class="resa-sec fi">
+  <div class="resa-inner">
+    <span class="sec-label">Prise de rendez-vous</span>
+    <h2 class="sec-title">Réservez<br><em>votre moment</em></h2>
+    <p>Offrez à votre enfant une expérience capillaire d'exception. Sélectionnez le service et choisissez votre créneau en quelques secondes.</p>
+    <form action="https://formspree.io/f/mgoldabp" method="POST">
+      <input type="hidden" name="Type" value="Réservation soin">
+      <div class="resa-form">
+        <input type="text" name="Prénom de l'enfant" placeholder="Prénom de l'enfant" required>
+        <input type="number" name="Âge" placeholder="Âge (0–12 ans)" min="0" max="12" required>
+        <select name="Type de cheveux"><option value="">— Type de cheveux —</option><option>Type 3A – Boucles légères</option><option>Type 3B – Boucles définies</option><option>Type 3C – Boucles serrées</option><option>Type 4A – Coils doux</option><option>Type 4B – Coils anguleux</option><option>Type 4C – Coils très serrés</option></select>
+        <select name="Service souhaité"><option value="">— Service souhaité —</option><option>Soin hydratation complète</option><option>Coiffure protectrice</option><option>Bilan capillaire</option><option>Détressage &amp; soin</option><option>Package Garden (soin + thé)</option></select>
+        <input type="date" name="Date souhaitée" class="full" required>
+        <input type="email" name="Email" class="full" placeholder="Email pour confirmation" required>
+      </div>
+      <button type="submit" class="btn-book">✦ &nbsp; Confirmer ma réservation &nbsp; ✦</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-top">
+    <div><div class="foot-brand">Vaïana'<span>s</span> Garden</div><div class="foot-sub">Nouvel Espoir Afro</div></div>
+    <div class="foot-col"><h4>Horaires</h4><p>Lundi – Vendredi : 9h – 19h</p><p>Samedi : 9h – 18h</p><p>Dimanche : 10h – 16h</p></div>
+    <div class="foot-col"><h4>Contact</h4><a href="mailto:nouvelespoirafro@gmail.com">nouvelespoirafro@gmail.com</a><a href="tel:+22901514706085">+229 01 51 47 06 85</a><a href="#">Parakou, Bénin</a></div>
+    <div class="foot-col"><h4>Réseaux Sociaux</h4><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Facebook</a></div>
+  </div>
+  <div class="foot-bot"><span>© 2025 Vaïana's Garden — Nouvel Espoir Afro</span><span>Tous droits réservés ✦</span></div>
+</footer>
+
+<script>
+  const els=document.querySelectorAll('.fi');
+  const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target);}});},{threshold:0.1});
+  els.forEach(el=>obs.observe(el));
+  const ouverture=new Date('2026-06-01T00:00:00');
+  function updateCountdown(){
+    const diff=ouverture-new Date();
+    if(diff<=0){document.querySelector('.countdown').innerHTML='<p style="color:var(--gold);font-family:Playfair Display,serif;font-size:28px;font-style:italic">Nous sommes ouverts ! 🎉</p>';return;}
+    document.getElementById('days').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('hours').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('minutes').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('seconds').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  updateCountdown();setInterval(updateCountdown,1000);
+
+    const f=document.getElementById('form-carte');
+    f.style.display='block';
+    document.getElementById('carte-hidden').value=tier;
+    document.getElementById('carte-tier-lbl').textContent='Carte choisie : '+tier;
+    f.scrollIntoView({behavior:'smooth'});
+  }
+</script>
+
+</body>
+</html>
