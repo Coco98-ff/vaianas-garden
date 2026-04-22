@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Vaïana's Garden</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:#0F2018;color:#FAF6EE;min-height:100vh;display:flex;flex-direction:column}
+header{background:#1A3028;padding:20px 32px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid rgba(201,169,110,0.3)}
+.logo{font-family:'Playfair Display',serif;font-size:26px;color:#C9A96E;font-style:italic}
+.logo small{display:block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(250,246,238,0.4);font-style:normal;font-family:'DM Sans',sans-serif}
+#clock{font-size:48px;font-weight:600;color:#C9A96E;letter-spacing:4px;text-align:right}
+#dateDisplay{font-size:12px;color:rgba(250,246,238,0.4);letter-spacing:2px;text-transform:uppercase;text-align:right;margin-top:4px}
+.current{background:linear-gradient(135deg,#1A3028,#2E5040);margin:24px 32px;padding:36px;border:1px solid rgba(201,169,110,0.3);position:relative}
+.current::after{content:'EN COURS';position:absolute;top:16px;right:16px;background:#C9A96E;color:#0F2018;font-size:10px;letter-spacing:3px;font-weight:700;padding:5px 12px}
+.lbl{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#C9A96E;margin-bottom:10px}
+#currentChild{font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:#FAF6EE;line-height:1}
+#currentSoin{font-size:24px;color:rgba(250,246,238,0.65);margin:10px 0 20px;font-style:italic}
+.meta{display:flex;gap:40px;flex-wrap:wrap}
+.mi label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,0.6);display:block;margin-bottom:4px}
+.mi span{font-size:20px;color:#C9A96E;font-weight:600}
+.queue-wrap{padding:0 32px 24px;flex:1}
+.queue-lbl{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(250,246,238,0.35);margin-bottom:14px}
+#queueGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.qcard{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:18px 22px;display:flex;align-items:center;gap:18px}
+.qnum{font-family:'Playfair Display',serif;font-size:32px;color:rgba(201,169,110,0.35);font-weight:700;width:44px;flex-shrink:0}
+.qname{font-size:20px;font-weight:600;color:#FAF6EE;margin-bottom:3px}
+.qsoin{font-size:13px;color:rgba(250,246,238,0.5)}
+.qcoiff{font-size:11px;color:#C9A96E;margin-top:3px}
+.qdel{margin-left:auto;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.2);color:rgba(255,120,120,0.6);padding:6px 10px;cursor:pointer;font-size:12px;border-radius:4px;flex-shrink:0}
+footer{background:#1A3028;padding:12px 32px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(201,169,110,0.15)}
+footer span{font-size:12px;color:rgba(250,246,238,0.35)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99}
+.overlay.show{display:block}
+.panel{position:fixed;top:0;right:-500px;width:440px;height:100vh;background:#1A3028;border-left:2px solid rgba(201,169,110,0.3);padding:28px;overflow-y:auto;transition:right 0.35s ease;z-index:100}
+.panel.show{right:0}
+.panel h2{font-family:'Playfair Display',serif;font-size:22px;color:#C9A96E;margin-bottom:22px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,246,238,0.45);margin-bottom:6px}
+.field input,.field select{width:100%;padding:13px;background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,110,0.2);color:#FAF6EE;font-size:15px;font-family:'DM Sans',sans-serif;outline:none}
+.field input:focus,.field select:focus{border-color:#C9A96E}
+.field select option{background:#0F2018}
+.btn-gold{width:100%;padding:15px;background:#C9A96E;color:#0F2018;font-size:12px;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-weight:700;font-family:'DM Sans',sans-serif;margin-top:6px}
+.btn-outline{width:100%;padding:13px;background:transparent;color:#C9A96E;font-size:11px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(201,169,110,0.35);cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:6px}
+.btn-danger{width:100%;padding:12px;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.25);color:rgba(255,120,120,0.75);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:6px}
+.sep{margin:20px 0;border-top:1px solid rgba(201,169,110,0.2)}
+.close-panel{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.08);border:none;color:rgba(250,246,238,0.5);width:32px;height:32px;cursor:pointer;font-size:16px;border-radius:50%}
+.fab{position:fixed;bottom:28px;right:28px;background:#C9A96E;color:#0F2018;width:58px;height:58px;border-radius:50%;border:none;font-size:26px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.4);z-index:98;display:flex;align-items:center;justify-content:center}
+@media(max-width:600px){
+  header{padding:14px 16px}#clock{font-size:28px}
+  .current{margin:14px 16px;padding:20px}#currentChild{font-size:44px}
+  .queue-wrap{padding:0 16px 16px}.panel{width:100%;right:-100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Vaïana's Garden™<small>Zone Technique</small></div>
+  <div>
+    <div id="clock">--:--:--</div>
+    <div id="dateDisplay">Chargement...</div>
+  </div>
+</header>
+
+<div class="current">
+  <div class="lbl">Séance en cours</div>
+  <div id="currentChild">—</div>
+  <div id="currentSoin">Aucune séance active</div>
+  <div class="meta">
+    <div class="mi"><label>Coiffeuse</label><span id="currentCoiff">—</span></div>
+    <div class="mi"><label>Cheveux</label><span id="currentHair">—</span></div>
+    <div class="mi"><label>Début</label><span id="currentTime">—</span></div>
+  </div>
+</div>
+
+<div class="queue-wrap">
+  <div class="queue-lbl">File d'attente</div>
+  <div id="queueGrid"><p style="color:rgba(250,246,238,0.25);font-size:14px;font-style:italic">Aucune cliente en attente</p></div>
+</div>
+
+<footer>
+  <span>Vaïana's Garden™ · Nouvel Espoir Afro™</span>
+  <span>Usage interne · Salon</span>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="panel" id="panel">
+  <button class="close-panel" id="closeBtn">✕</button>
+  <h2>Nouvelle séance</h2>
+  <div class="field"><label>Prénom de l'enfant *</label><input type="text" id="inp_child" placeholder="Ex: Ama"></div>
+  <div class="field"><label>Type de soin *</label>
+    <select id="inp_soin">
+      <option value="">— Choisir —</option>
+      <option>Diagnostic capillaire</option>
+      <option>Soin hydratation complète</option>
+      <option>Coiffure protectrice simple</option>
+      <option>Coiffure protectrice élaborée</option>
+      <option>Détressage &amp; soin</option>
+      <option>Package Garden</option>
+      <option>Package Premium</option>
+    </select>
+  </div>
+  <div class="field"><label>Type de cheveux</label>
+    <select id="inp_hair">
+      <option value="">— Choisir —</option>
+      <option>Type 3A – Boucles légères</option>
+      <option>Type 3B – Boucles définies</option>
+      <option>Type 3C – Boucles serrées</option>
+      <option>Type 4A – Coils doux</option>
+      <option>Type 4B – Coils anguleux</option>
+      <option>Type 4C – Coils très serrés</option>
+    </select>
+  </div>
+  <div class="field"><label>Coiffeuse assignée</label><input type="text" id="inp_coiff" placeholder="Ex: Mariam"></div>
+  <button class="btn-gold" id="btnStart">▶ Démarrer la séance</button>
+  <button class="btn-outline" id="btnQueue">+ Ajouter à la file</button>
+  <div class="sep"></div>
+  <h2 style="font-size:16px;margin-bottom:14px">Actions</h2>
+  <button class="btn-danger" id="btnEnd">✕ Terminer &amp; passer à la suivante</button>
+  <button class="btn-danger" id="btnClear" style="margin-top:6px">🗑 Vider tout</button>
+</div>
+
+<button class="fab" id="fab">⚙</button>
+
+<script>
+(function() {
+  // State
+  var queue = [];
+  var current = null;
+
+  // Load from storage
+  try {
+    var sq = localStorage.getItem('vg_q2');
+    var sc = localStorage.getItem('vg_c2');
+    if (sq) queue = JSON.parse(sq);
+    if (sc) current = JSON.parse(sc);
+  } catch(e) { queue = []; current = null; }
+
+  // Save
+  function save() {
+    try {
+      localStorage.setItem('vg_q2', JSON.stringify(queue));
+      localStorage.setItem('vg_c2', JSON.stringify(current));
+    } catch(e) {}
+  }
+
+  // Clock
+  function tick() {
+    var now = new Date();
+    var pad = function(n) { return String(n).padStart(2,'0'); };
+    document.getElementById('clock').textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+    var jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    var mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    document.getElementById('dateDisplay').textContent = jours[now.getDay()] + ' ' + now.getDate() + ' ' + mois[now.getMonth()] + ' ' + now.getFullYear();
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Panel
+  function openPanel() {
+    document.getElementById('panel').classList.add('show');
+    document.getElementById('overlay').classList.add('show');
+  }
+  function closePanel() {
+    document.getElementById('panel').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  // Render current
+  function renderCurrent() {
+    if (!current) {
+      document.getElementById('currentChild').textContent = '—';
+      document.getElementById('currentSoin').textContent = 'Aucune séance active';
+      document.getElementById('currentCoiff').textContent = '—';
+      document.getElementById('currentHair').textContent = '—';
+      document.getElementById('currentTime').textContent = '—';
+      return;
+    }
+    document.getElementById('currentChild').textContent = current.child;
+    document.getElementById('currentSoin').textContent = current.soin;
+    document.getElementById('currentCoiff').textContent = current.coiff || '—';
+    document.getElementById('currentHair').textContent = current.hair || '—';
+    document.getElementById('currentTime').textContent = current.time || '—';
+  }
+
+  // Render queue
+  function renderQueue() {
+    var grid = document.getElementById('queueGrid');
+    if (queue.length === 0) {
+      grid.innerHTML = '<p style="color:rgba(250,246,238,0.25);font-size:14px;font-style:italic">Aucune cliente en attente</p>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < queue.length; i++) {
+      var item = queue[i];
+      html += '<div class="qcard">';
+      html += '<div class="qnum">0' + (i+1) + '</div>';
+      html += '<div style="flex:1"><div class="qname">' + item.child + '</div>';
+      html += '<div class="qsoin">' + item.soin + '</div>';
+      if (item.coiff) html += '<div class="qcoiff">✦ ' + item.coiff + '</div>';
+      html += '</div>';
+      html += '<button class="qdel" data-idx="' + i + '">✕</button>';
+      html += '</div>';
+    }
+    grid.innerHTML = html;
+    // Attach delete buttons
+    var dels = grid.querySelectorAll('.qdel');
+    for (var j = 0; j < dels.length; j++) {
+      dels[j].addEventListener('click', function(e) {
+        var idx = parseInt(e.target.getAttribute('data-idx'));
+        queue.splice(idx, 1);
+        save();
+        renderQueue();
+      });
+    }
+  }
+
+  // Get time string
+  function nowTime() {
+    var now = new Date();
+    return String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  }
+
+  // Clear form
+  function clearForm() {
+    document.getElementById('inp_child').value = '';
+    document.getElementById('inp_soin').value = '';
+    document.getElementById('inp_hair').value = '';
+    document.getElementById('inp_coiff').value = '';
+  }
+
+  // Events
+  document.getElementById('fab').addEventListener('click', openPanel);
+  document.getElementById('closeBtn').addEventListener('click', closePanel);
+  document.getElementById('overlay').addEventListener('click', closePanel);
+
+  document.getElementById('btnStart').addEventListener('click', function() {
+    var child = document.getElementById('inp_child').value.trim();
+    var soin = document.getElementById('inp_soin').value;
+    var hair = document.getElementById('inp_hair').value;
+    var coiff = document.getElementById('inp_coiff').value.trim();
+    if (!child || !soin) { alert('Veuillez remplir le prénom et le type de soin.'); return; }
+    current = { child: child, soin: soin, hair: hair, coiff: coiff, time: nowTime() };
+    save();
+    renderCurrent();
+    clearForm();
+    closePanel();
+  });
+
+  document.getElementById('btnQueue').addEventListener('click', function() {
+    var child = document.getElementById('inp_child').value.trim();
+    var soin = document.getElementById('inp_soin').value;
+    var hair = document.getElementById('inp_hair').value;
+    var coiff = document.getElementById('inp_coiff').value.trim();
+    if (!child || !soin) { alert('Veuillez remplir le prénom et le type de soin.'); return; }
+    queue.push({ child: child, soin: soin, hair: hair, coiff: coiff });
+    save();
+    renderQueue();
+    clearForm();
+  });
+
+  document.getElementById('btnEnd').addEventListener('click', function() {
+    if (queue.length > 0) {
+      var next = queue.shift();
+      current = { child: next.child, soin: next.soin, hair: next.hair, coiff: next.coiff, time: nowTime() };
+      save();
+      renderCurrent();
+      renderQueue();
+    } else {
+      current = null;
+      save();
+      renderCurrent();
+    }
+  });
+
+  document.getElementById('btnClear').addEventListener('click', function() {
+    if (confirm('Vider toute la session et la file d\'attente ?')) {
+      queue = []; current = null;
+      save();
+      renderCurrent();
+      renderQueue();
+    }
+  });
+
+  // Init
+  renderCurrent();
+  renderQueue();
+})();
+</script>
+
+</body>
+</html>
